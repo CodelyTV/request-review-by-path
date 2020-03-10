@@ -1,0 +1,11 @@
+name: '👤 Assign by path'
+description: 'Assign Pull Requests based on the paths of the modified files'
+inputs:
+  GITHUB_TOKEN:
+    description: 'GitHub token'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.GITHUB_TOKEN }}
