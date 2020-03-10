@@ -1,6 +1,6 @@
 FROM alpine:3.10
 
-RUN apk add --no-cache bash curl jq go
+RUN apk add --no-cache bash curl jq git go
 
 ADD entrypoint.sh /entrypoint.sh
 ADD src /src
