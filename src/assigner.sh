@@ -12,10 +12,10 @@ assigner::directory_has_been_modified() {
 
 assigner::team_has_been_modified() {
   local -r IFS=$'\n'
-  local -r team_directories=($1)
+  local -r all_team_paths=($1)
   local i
-  for (( i=0; i<${#team_directories[@]}; i++ )) ; do
-    local -r directory_without_yaml=$(echo "${team_directories[$i]//'- '}")
+  for (( i=0; i<${#all_team_paths[@]}; i++ )) ; do
+    local -r directory_without_yaml=$(echo "${all_team_paths[$i]//'- '}")
 
     if assigner::directory_has_been_modified "$directory_without_yaml" ; then
         log::message "👍 $directory_without_yaml directory HAS been modified"
@@ -26,22 +26,25 @@ assigner::team_has_been_modified() {
 }
 
 assigner::assign_to() {
-  local IFS=$'\n'
-  local teams_mappings=($1)
+  local -r IFS=$'\n'
+  local -r all_teams=($1)
+  local -r teams_mappings=($2)
   local i
-  for (( i=0; i<${#teams_mappings[@]}; i++ )) ; do
-    log::message "Team $i: ${teams_mappings[$i]}"
+  for (( i=0; i<${#all_teams[@]}; i++ )) ; do
+    log::message "Team $i: ${all_teams[$i]}"
 
     log::message "---------------------------------"
-    local -r team_directories=$(yq r -X monorepo_assign.yml "assign.${teams_mappings[$i]}")
+    local -r team_paths=$(echo "$teams_mappings" | yaml2json | jq "assign.${all_teams[$i]}")
 
-    assigner::team_has_been_modified "$team_directories"
+    assigner::team_has_been_modified "$team_paths"
 
     log::message "---------------------------------"
   done
 }
 
 assigner::assign() {
-  local -r teams_mappings=$(yq r monorepo_assign.yml assign | awk -F":" '{print $1}')
-  assigner::assign_to "$teams_mappings"
+  local -r assign_by_path_mappings_yml=$(github::get_file_contets "/.github/workflows/assign_by_path_mappings.yml")
+
+  local -r teams=$(echo "$assign_by_path_mappings_yml" | yaml2json | jq .assign | awk -F":" '{print $1}')
+  assigner::assign_to "$teams" "$assign_by_path_mappings_yml"
 }
