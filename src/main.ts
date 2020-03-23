@@ -17,7 +17,7 @@ async function run(): Promise<void> {
       ref: github.context.payload.after
     })).data.files.map(file => file.filename)
 
-    const usersToAssign = mapping.filter((user: string) => {
+    const usersToAssign = mapping.keys().filter((user: string) => {
       const paths = mapping[user]
 
       return modifiedFilenames.some(filename => isInside(filename, paths))

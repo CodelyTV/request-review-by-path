@@ -3517,7 +3517,7 @@ function run() {
                 repo: github.context.repo.repo,
                 ref: github.context.payload.after
             })).data.files.map(file => file.filename);
-            const usersToAssign = mapping.filter((user) => {
+            const usersToAssign = mapping.keys().filter((user) => {
                 const paths = mapping[user];
                 return modifiedFilenames.some(filename => isInside(filename, paths));
             });
