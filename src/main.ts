@@ -1,14 +1,11 @@
 import * as core from '@actions/core'
-import {wait}    from './wait'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`)
+    const githubToken: string = core.getInput('GITHUB_TOKEN')
+    const mapping: string     = core.getInput('mapping')
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    core.debug(`The mapping is: ${mapping}`)
 
     core.setOutput('time', new Date().toTimeString())
   } catch (error) {

@@ -1,10 +1,16 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Assign by path'
+description: 'Assign pull requests by the modified path'
+author: 'CodelyTV'
+branding:
+  icon: 'at-sign'
+  color: 'white'
 inputs:
-  myInput:              # change this
-    description: 'input description here'
-    default: 'default value if applicable'
+  GITHUB_TOKEN:
+    description: 'GitHub token'
+    required: true
+  mapping:
+    description: 'Mapping for assigning the pull request'
+    required: true
 runs:
   using: 'node12'
   main: 'dist/index.js'
