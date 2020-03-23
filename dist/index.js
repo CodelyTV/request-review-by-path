@@ -3517,23 +3517,26 @@ function run() {
                 repo: github.context.repo.repo,
                 ref: github.context.payload.after
             })).data.files.map(file => file.filename);
-            const allReviewers = Object.keys(mapping).filter((user) => {
+            const allReviewers = Object.keys(mapping)
+                .filter((user) => {
                 const paths = mapping[user];
                 return modifiedFilenames.some(filename => isInside(filename, paths));
-            }).filter(user => user !== github.context.actor);
+            })
+                .filter(user => user !== github.context.actor);
             const reviewers = allReviewers.filter(user => !user.includes('/'));
-            const teamReviewers = allReviewers.filter(user => user.includes('/')).map(user => user.split('/').slice(-1)[0]);
+            const teamReviewers = allReviewers
+                .filter(user => user.includes('/'))
+                .map(user => user.split('/').slice(-1)[0]);
             yield octokit.pulls.createReviewRequest({
                 owner: github.context.repo.owner,
                 repo: github.context.repo.repo,
-                reviewers: reviewers,
+                reviewers,
                 team_reviewers: teamReviewers,
                 pull_number: github.context.issue.number
             });
         }
         catch (error) {
             core.setFailed(error.message);
-            console.log(error);
         }
     });
 }
