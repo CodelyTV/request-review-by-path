@@ -3506,22 +3506,26 @@ const github = __importStar(__webpack_require__(469));
 const yaml = __importStar(__webpack_require__(414));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
+        function isInside(filename, paths) {
+            return paths.some(path => filename.startsWith(path));
+        }
         try {
             const mapping = yaml.safeLoad(core.getInput('mapping'));
             const octokit = new github.GitHub(core.getInput('GITHUB_TOKEN'));
-            const { data: { files: modifiedFiles } } = yield octokit.repos.getCommit({
+            const modifiedFilenames = (yield octokit.repos.getCommit({
                 owner: github.context.repo.owner,
                 repo: github.context.repo.repo,
                 ref: github.context.payload.after
-            });
-            const moodifiedFilenames = modifiedFiles.map(file => file.filename);
-            core.error(`SHA`);
-            console.log(github.context.payload.after);
-            core.error(`Starting modified files:`);
-            console.log(moodifiedFilenames);
+            })).data.files.map(file => file.filename);
             for (const user in mapping) {
                 const paths = mapping[user];
                 core.error(`The user "${user}" has the paths: ${paths}`);
+                if (modifiedFilenames.some(filename => isInside(filename, paths))) {
+                    core.error(`PR IS GONNA BE ASSIGNED`);
+                }
+                else {
+                    core.error(`PR IS NOOOOT GONNA BE ASSIGNED`);
+                }
             }
         }
         catch (error) {
