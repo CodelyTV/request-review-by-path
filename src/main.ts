@@ -2,7 +2,6 @@ import * as core   from '@actions/core'
 import * as github from '@actions/github'
 import * as yaml   from 'js-yaml'
 
-
 async function run(): Promise<void> {
   function isInside(filename: string, paths: Array<string>): boolean {
     return paths.some(path => filename.startsWith(path))
@@ -21,7 +20,7 @@ async function run(): Promise<void> {
     for (const user in mapping) {
       const paths = mapping[user]
 
-      core.error(`The user "${user}" has the paths: ${paths}`)
+      core.error(`The user "${user}" has the paths: ${paths}. And modified are ${modifiedFilenames}`)
 
       if (modifiedFilenames.some(filename => isInside(filename, paths))) {
         core.error(`PR IS GONNA BE ASSIGNED`)

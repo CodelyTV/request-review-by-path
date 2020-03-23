@@ -3519,7 +3519,7 @@ function run() {
             })).data.files.map(file => file.filename);
             for (const user in mapping) {
                 const paths = mapping[user];
-                core.error(`The user "${user}" has the paths: ${paths}`);
+                core.error(`The user "${user}" has the paths: ${paths}. And modified are ${modifiedFilenames}`);
                 if (modifiedFilenames.some(filename => isInside(filename, paths))) {
                     core.error(`PR IS GONNA BE ASSIGNED`);
                 }
