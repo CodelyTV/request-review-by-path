@@ -33,7 +33,7 @@ async function run(): Promise<void> {
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,
       reviewers: reviewers,
-      team_reviewers: ["staff"],
+      team_reviewers: ["@CodelyTV/staff"],
       pull_number: github.context.issue.number
     })
   } catch (error) {
