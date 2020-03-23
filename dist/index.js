@@ -3517,16 +3517,11 @@ function run() {
                 repo: github.context.repo.repo,
                 ref: github.context.payload.after
             })).data.files.map(file => file.filename);
-            for (const user in mapping) {
+            const usersToAssign = mapping.filter((user) => {
                 const paths = mapping[user];
-                core.error(`The user "${user}" has the paths: ${paths}. And modified are ${modifiedFilenames}`);
-                if (modifiedFilenames.some(filename => isInside(filename, paths))) {
-                    core.error(`PR IS GONNA BE ASSIGNED`);
-                }
-                else {
-                    core.error(`PR IS NOOOOT GONNA BE ASSIGNED`);
-                }
-            }
+                return modifiedFilenames.some(filename => isInside(filename, paths));
+            });
+            core.error(`Users to assign ${usersToAssign}`);
         }
         catch (error) {
             core.setFailed(error.message);

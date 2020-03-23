@@ -17,17 +17,13 @@ async function run(): Promise<void> {
       ref: github.context.payload.after
     })).data.files.map(file => file.filename)
 
-    for (const user in mapping) {
+    const usersToAssign = mapping.filter((user: string) => {
       const paths = mapping[user]
 
-      core.error(`The user "${user}" has the paths: ${paths}. And modified are ${modifiedFilenames}`)
+      return modifiedFilenames.some(filename => isInside(filename, paths))
+    })
 
-      if (modifiedFilenames.some(filename => isInside(filename, paths))) {
-        core.error(`PR IS GONNA BE ASSIGNED`)
-      } else {
-        core.error(`PR IS NOOOOT GONNA BE ASSIGNED`)
-      }
-    }
+    core.error(`Users to assign ${usersToAssign}`)
   } catch (error) {
     core.setFailed(error.message)
   }
