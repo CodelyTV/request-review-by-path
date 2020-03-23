@@ -14,7 +14,6 @@ jobs:
   self-execute:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
     - uses: ./
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
