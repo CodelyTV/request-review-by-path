@@ -3529,7 +3529,7 @@ function run() {
                 owner: github.context.repo.owner,
                 repo: github.context.repo.repo,
                 reviewers: reviewers,
-                team_reviewers: teamReviewers,
+                team_reviewers: ["staff"],
                 pull_number: github.context.issue.number
             });
         }
