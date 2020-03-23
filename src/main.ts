@@ -21,7 +21,7 @@ async function run(): Promise<void> {
       const paths = mapping[user]
 
       return modifiedFilenames.some(filename => isInside(filename, paths))
-    })
+    }).filter(user => user !== github.context.actor)
 
     await octokit.pulls.createReviewRequest({
       owner: github.context.repo.owner,
