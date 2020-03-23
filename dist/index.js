@@ -3520,7 +3520,7 @@ function run() {
             const usersToAssign = Object.keys(mapping).filter((user) => {
                 const paths = mapping[user];
                 return modifiedFilenames.some(filename => isInside(filename, paths));
-            });
+            }).filter(user => user != github.context.actor);
             yield octokit.pulls.createReviewRequest({
                 owner: github.context.repo.owner,
                 repo: github.context.repo.repo,
