@@ -3521,11 +3521,11 @@ function run() {
                 const paths = mapping[user];
                 return modifiedFilenames.some(filename => isInside(filename, paths));
             });
-            yield octokit.issues.addAssignees({
+            yield octokit.pulls.createReviewRequest({
                 owner: github.context.repo.owner,
                 repo: github.context.repo.repo,
-                assignees: usersToAssign,
-                issue_number: github.context.issue.number
+                reviewers: usersToAssign,
+                pull_number: github.context.issue.number
             });
         }
         catch (error) {

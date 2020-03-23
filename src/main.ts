@@ -23,11 +23,11 @@ async function run(): Promise<void> {
       return modifiedFilenames.some(filename => isInside(filename, paths))
     })
 
-    await octokit.issues.addAssignees({
+    await octokit.pulls.createReviewRequest({
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,
-      assignees: usersToAssign,
-      issue_number: github.context.issue.number
+      reviewers: usersToAssign,
+      pull_number: github.context.issue.number
     })
   } catch (error) {
     core.setFailed(error.message)

@@ -22,3 +22,4 @@ jobs:
           rgomezcasas: ["src"]
           javiercane: ["src", "dist"]
           barackObama: ["node_modules"]
+          CodelyTV/staff: ["src"]
