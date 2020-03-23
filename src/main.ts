@@ -7,13 +7,17 @@ async function run(): Promise<void> {
     const mapping = yaml.safeLoad(core.getInput('mapping'))
     const octokit = new github.GitHub(core.getInput('GITHUB_TOKEN'))
 
-    const repo = github.context.repo
-
     const modifiedFiles = await octokit.repos.getCommit({
-      owner: repo.owner,
-      repo: repo.repo,
-      ref: github.context.ref
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      ref: github.context.sha
     })
+
+    core.error(`SHA`)
+    console.log(github.context.sha)
+
+    core.error(`TOH EL CONTEXT`)
+    console.log(github.context)
 
     core.error(`Starting modified files:`)
     console.log(modifiedFiles)
