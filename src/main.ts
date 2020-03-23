@@ -3,7 +3,7 @@ import * as github from '@actions/github'
 import * as yaml   from 'js-yaml'
 
 async function run(): Promise<void> {
-  function isInside(filename: string, paths: Array<string>): boolean {
+  function isInside(filename: string, paths: string[]): boolean {
     return paths.some(path => filename.startsWith(path))
   }
 
