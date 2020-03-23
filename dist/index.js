@@ -3523,6 +3523,8 @@ function run() {
             }).filter(user => user != github.context.actor);
             const reviewers = usersToAssign.filter(user => !user.includes('/'));
             const teamReviewers = usersToAssign.filter(user => user.includes('/')).map(user => user.split('/').slice(-1)[0]);
+            console.log(reviewers);
+            console.log(teamReviewers);
             yield octokit.pulls.createReviewRequest({
                 owner: github.context.repo.owner,
                 repo: github.context.repo.repo,
@@ -3533,6 +3535,7 @@ function run() {
         }
         catch (error) {
             core.setFailed(error.message);
+            console.log(error);
         }
     });
 }

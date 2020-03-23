@@ -26,6 +26,9 @@ async function run(): Promise<void> {
     const reviewers     = usersToAssign.filter(user => !user.includes('/'))
     const teamReviewers = usersToAssign.filter(user => user.includes('/')).map(user => user.split('/').slice(-1)[0])
 
+    console.log(reviewers)
+    console.log(teamReviewers)
+
     await octokit.pulls.createReviewRequest({
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,
@@ -35,6 +38,7 @@ async function run(): Promise<void> {
     })
   } catch (error) {
     core.setFailed(error.message)
+    console.log(error)
   }
 }
 
