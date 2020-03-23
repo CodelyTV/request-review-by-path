@@ -5,7 +5,7 @@
 </p>
 
 <h1 align="center">
-  👤 Assign Pull Request by modified path
+  👤 Request Review Pull Request by modified path
 </h1>
 
 <p align="center">
@@ -35,19 +35,11 @@ jobs:
       - uses: codelytv/assign-by-path@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-```
-
-✌️ Create a file named `assign_by_path_mappings.yml` inside the `.github` directory.
-
-This file must contain the association between your GitHub teams or people to assign PRs (mapping keys) and paths.
-
-In the following example, we will be assigning the PRs that modifies files inside the `src/mooc` folder to the `mooc` team:
-
-```yml
-assign:
-  mooc: ["src/mooc", "src/shared"]
-  retention: ["src/retention"]
-  backoffice: ["src/backoffice", "src/analytics"]
+        mapping: |
+          rgomezcasas: ["src"]
+          javiercane: ["src", "dist"]
+          barackObama: ["node_modules"]
+          CodelyTV/staff: ["src"]
 ```
 
 ## 💡 Use case examples

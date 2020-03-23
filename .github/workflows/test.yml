@@ -1,0 +1,25 @@
+name: "build-execute"
+on:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - run: |
+        npm install
+        npm run all
+
+  self-execute:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: ./
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_CUSTOM_TOKEN }}
+        mapping: |
+          rgomezcasas: ["src"]
+          javiercane: ["src", "dist"]
+          barackObama: ["node_modules"]
+          CodelyTV/staff: ["src"]
