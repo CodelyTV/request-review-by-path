@@ -21,3 +21,4 @@ jobs:
         mapping: |
           rgomezcasas: ["src"]
           javiercane: ["src", "dist"]
+          barackObama: ["node_modules"]
