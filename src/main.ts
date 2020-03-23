@@ -23,7 +23,12 @@ async function run(): Promise<void> {
       return modifiedFilenames.some(filename => isInside(filename, paths))
     })
 
-    core.error(`Users to assign ${usersToAssign}`)
+    await octokit.issues.addAssignees({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      assignees: usersToAssign,
+      issue_number: github.context.issue.number
+    })
   } catch (error) {
     core.setFailed(error.message)
   }
