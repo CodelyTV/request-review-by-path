@@ -3520,7 +3520,7 @@ function run() {
             const allReviewers = Object.keys(mapping).filter((user) => {
                 const paths = mapping[user];
                 return modifiedFilenames.some(filename => isInside(filename, paths));
-            }).filter(user => user != github.context.actor);
+            }).filter(user => user !== github.context.actor);
             const reviewers = allReviewers.filter(user => !user.includes('/'));
             const teamReviewers = allReviewers.filter(user => user.includes('/')).map(user => user.split('/').slice(-1)[0]);
             yield octokit.pulls.createReviewRequest({
