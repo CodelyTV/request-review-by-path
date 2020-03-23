@@ -13,11 +13,13 @@ async function run(): Promise<void> {
       ref: github.context.payload.after
     })
 
+    const moodifiedFilenames = modifiedFiles.map(file => file.filename)
+
     core.error(`SHA`)
     console.log(github.context.payload.after)
 
     core.error(`Starting modified files:`)
-    console.log(modifiedFiles)
+    console.log(moodifiedFilenames)
     for (const user in mapping) {
       const paths = mapping[user]
 
