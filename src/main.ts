@@ -5,7 +5,8 @@ async function run(): Promise<void> {
     // const githubToken: string = core.getInput('GITHUB_TOKEN')
     const mapping: string     = core.getInput('mapping')
 
-    core.debug(`The mapping is: ${mapping}`)
+    core.error(`some message`)
+    core.error(`The mapping is: ${mapping}`)
   } catch (error) {
     core.setFailed(error.message)
   }
