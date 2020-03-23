@@ -3521,10 +3521,13 @@ function run() {
                 const paths = mapping[user];
                 return modifiedFilenames.some(filename => isInside(filename, paths));
             }).filter(user => user != github.context.actor);
+            const reviewers = usersToAssign.filter(user => !user.includes('/'));
+            const teamReviewers = usersToAssign.filter(user => user.includes('/')).map(user => user.split('/').slice(-1)[0]);
             yield octokit.pulls.createReviewRequest({
                 owner: github.context.repo.owner,
                 repo: github.context.repo.repo,
-                reviewers: usersToAssign,
+                reviewers: reviewers,
+                team_reviewers: teamReviewers,
                 pull_number: github.context.issue.number
             });
         }
