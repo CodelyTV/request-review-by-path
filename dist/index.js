@@ -3517,12 +3517,12 @@ function run() {
                 repo: github.context.repo.repo,
                 ref: github.context.payload.after
             })).data.files.map(file => file.filename);
-            const usersToAssign = Object.keys(mapping).filter((user) => {
+            const allReviewers = Object.keys(mapping).filter((user) => {
                 const paths = mapping[user];
                 return modifiedFilenames.some(filename => isInside(filename, paths));
             }).filter(user => user != github.context.actor);
-            const reviewers = usersToAssign.filter(user => !user.includes('/'));
-            const teamReviewers = usersToAssign.filter(user => user.includes('/')).map(user => user.split('/').slice(-1)[0]);
+            const reviewers = allReviewers.filter(user => !user.includes('/'));
+            const teamReviewers = allReviewers.filter(user => user.includes('/')).map(user => user.split('/').slice(-1)[0]);
             yield octokit.pulls.createReviewRequest({
                 owner: github.context.repo.owner,
                 repo: github.context.repo.repo,

@@ -17,14 +17,14 @@ async function run(): Promise<void> {
       ref: github.context.payload.after
     })).data.files.map(file => file.filename)
 
-    const usersToAssign = Object.keys(mapping).filter((user: string) => {
+    const allReviewers = Object.keys(mapping).filter((user: string) => {
       const paths = mapping[user]
 
       return modifiedFilenames.some(filename => isInside(filename, paths))
     }).filter(user => user != github.context.actor)
 
-    const reviewers     = usersToAssign.filter(user => !user.includes('/'))
-    const teamReviewers = usersToAssign.filter(user => user.includes('/')).map(user => user.split('/').slice(-1)[0])
+    const reviewers     = allReviewers.filter(user => !user.includes('/'))
+    const teamReviewers = allReviewers.filter(user => user.includes('/')).map(user => user.split('/').slice(-1)[0])
 
     await octokit.pulls.createReviewRequest({
       owner: github.context.repo.owner,
