@@ -3509,15 +3509,13 @@ function run() {
         try {
             const mapping = yaml.safeLoad(core.getInput('mapping'));
             const octokit = new github.GitHub(core.getInput('GITHUB_TOKEN'));
-            const modifiedFiles = yield octokit.repos.getCommit({
+            const { data: { files: modifiedFiles } } = yield octokit.repos.getCommit({
                 owner: github.context.repo.owner,
                 repo: github.context.repo.repo,
-                ref: github.context.sha
+                ref: github.context.payload.after
             });
             core.error(`SHA`);
-            console.log(github.context.sha);
-            core.error(`TOH EL CONTEXT`);
-            console.log(github.context);
+            console.log(github.context.payload.after);
             core.error(`Starting modified files:`);
             console.log(modifiedFiles);
             for (const user in mapping) {
