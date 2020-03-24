@@ -1,6 +1,6 @@
-import * as core from '@actions/core'
+import * as core   from '@actions/core'
 import * as github from '@actions/github'
-import * as yaml from 'js-yaml'
+import * as yaml   from 'js-yaml'
 
 async function run(): Promise<void> {
   function isInside(filename: string, paths: string[]): boolean {
@@ -15,7 +15,7 @@ async function run(): Promise<void> {
       await octokit.repos.getCommit({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        ref: github.context.payload.after
+        ref: github.context.payload.after || github.context.ref
       })
     ).data.files.map(file => file.filename)
 
@@ -27,7 +27,7 @@ async function run(): Promise<void> {
       })
       .filter(user => user !== github.context.actor)
 
-    const reviewers = allReviewers.filter(user => !user.includes('/'))
+    const reviewers     = allReviewers.filter(user => !user.includes('/'))
     const teamReviewers = allReviewers
       .filter(user => user.includes('/'))
       .map(user => user.split('/').slice(-1)[0])
