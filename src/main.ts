@@ -7,6 +7,8 @@ async function run(): Promise<void> {
     return paths.some(path => filename.startsWith(path))
   }
 
+
+
   try {
     const mapping = yaml.safeLoad(core.getInput('mapping'))
     const octokit = new github.GitHub(core.getInput('GITHUB_TOKEN'))
